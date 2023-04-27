@@ -10,7 +10,7 @@ struct Tarea {
 }typedef tarea;
 
 struct Nodo {
-    struct Tarea tarea;
+    tarea tarea;
     struct Nodo *Siguiente;
 };
 
@@ -18,7 +18,8 @@ void mostrarRealizadas(tarea **tareaCant, int cant, tarea **tareaRealizada);
 void mostrarPendientes(tarea **tareaCant, int cant, tarea **tareaRealizada);
 void BuscaTareaPorId(tarea **tareaCant, int cant, tarea **tareaRealizada);
 void BuscaTareaPorPalabra(tarea **tareaCant, int cant, tarea **tareaRealizada);
-void subir(struct Nodo **headRef);
+void listar(struct Nodo *nodo, int cant);
+void subir(struct Nodo **comienzo);
 
 int main(){
 int cant=0,aux,stop;
@@ -27,7 +28,7 @@ printf("Ingrese el numero de tareas: ");
 scanf("%d",&cant);
 fflush(stdin);
 
-struct Nodo *head = NULL;
+struct Nodo *comienzo = NULL;
 tarea **tareaCant = malloc(sizeof(tarea*)*cant);
 tarea **tareaRealizada = malloc(sizeof(tarea)*cant);
 
@@ -41,18 +42,11 @@ for (int i = 0; i < cant; i++)
 {
     tareaCant[i] = NULL;
 }
-
-
-
-
-while (stop != 2)
+for (int k = 0; k < cant; k++)
 {
-    subir(&head);
-    printf("Desea agregar otra tarea(1) o terminar(2) ?");
-    fflush(stdin);
-    scanf("%d",&stop);
+    subir(&comienzo);
 }
-
+listar(comienzo,cant);
 mostrarRealizadas(tareaCant,cant,tareaRealizada);
 mostrarPendientes(tareaCant,cant,tareaRealizada);
 
@@ -78,7 +72,7 @@ void subir(struct Nodo **comienzo) {
     char buffer[40];
 
     nuevo->tarea.Duracion = 10 + rand() % 101 - 10;
-    nuevo->tarea.TareaID = 1;
+    nuevo->tarea.TareaID = 1 + rand() % 31 - 1;
     printf("Ingrese la descripcion del trabajo: ");
     fflush(stdin);
     gets(buffer);
@@ -96,6 +90,36 @@ void subir(struct Nodo **comienzo) {
         }
         actual->Siguiente = nuevo;
     }
+}
+
+void listar(struct Nodo *nodo, int cant){
+    int aux;
+    
+    while (nodo != NULL)
+    {
+        printf("ID de la tarea: %d\n", nodo->tarea.TareaID);
+        nodo = nodo->Siguiente;
+    }
+    
+
+
+    
+    // for (int i = 0; i < cant; i++)
+    // {  
+    //     printf("ID: %d\n", tareaCant[i]->TareaID);
+    //     printf("Duracion: %d\n", tareaCant[i]->Duracion);
+    //     printf("Descripcion: %s\n", tareaCant[i]->Descripcion);
+    //     printf("Tarea Realizada? (1: SI , 2: NO): ");
+    //     scanf("%d",&aux);
+    //     if (aux == 1){
+    //         tareaRealizada[i] = malloc(sizeof(tarea)*1);
+    //         tareaRealizada[i]->TareaID = tareaCant[i]->TareaID;
+    //         tareaRealizada[i]->Duracion = tareaCant[i]->Duracion;
+    //         tareaRealizada[i]->Descripcion = malloc(sizeof(tarea)*30);
+    //         tareaRealizada[i]->Descripcion = tareaCant[i]->Descripcion;
+    //         tareaCant[i] = NULL;
+    //     }
+    // }
 }
 
 void mostrarRealizadas(tarea **tareaCant, int cant, tarea **tareaRealizada){
