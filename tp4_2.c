@@ -19,10 +19,12 @@ void subir(struct Nodo **comienzo);
 void listar(struct Nodo **comienzo, struct Nodo **realizadas);
 void mostraRea(struct Nodo *realizadas);
 void mostrarPen(struct Nodo *comienzo);
-void buscar1(struct Nodo **comienzo, struct Nodo **realizadas, int dato);
+void buscar1(struct Nodo *comienzo, struct Nodo *realizadas, int dato);
+void buscar2(struct Nodo *comienzo, struct Nodo *realizadas, char *dato2);
 
 int main(){
 int cant=0,aux,stop,dato,aux2;
+char dato2[35];
 
 struct Nodo *comienzo = NULL;
 struct Nodo *realizadas = NULL;
@@ -44,14 +46,26 @@ fflush(stdin);
 mostrarPen(comienzo);
 
 puts("===INTERFAZ DE USUARIO===");
-printf("Buscar tarea(1), parar(2)");
+printf("Buscar tarea por ID(1), \nBuscar tarea por palabra(2)\nParar(3)");
 scanf("%d",&aux2);
-if (aux2 == 1)
+switch (aux2)
 {
+case 1:
     printf("Ingrese el id de la tarea a buscar: ");
     scanf("%d",&dato);
-    buscar1(&comienzo,&realizadas,dato);
+    buscar1(comienzo,realizadas,dato);
+    break;
+    case 2:
+    printf("Ingrese la palabra de la tarea a buscar: ");
+    fflush(stdin);
+    gets(dato2);
+    buscar2(comienzo,realizadas,dato2);
+    break;
+
+default:
+    break;
 }
+    
 
 return 0;
 }
@@ -153,9 +167,9 @@ void mostrarPen(struct Nodo *comienzo){
     }
 }
 
-void buscar1(struct Nodo **comienzo, struct Nodo **realizadas, int dato){
-    struct Nodo *aux = *comienzo;
-    struct Nodo *aux2 = *realizadas;
+void buscar1(struct Nodo *comienzo, struct Nodo *realizadas, int dato){
+    struct Nodo *aux = comienzo;
+    struct Nodo *aux2 = realizadas;
 
     while (aux != NULL)
     {
@@ -179,5 +193,34 @@ void buscar1(struct Nodo **comienzo, struct Nodo **realizadas, int dato){
             printf("REALIZADA\n");
         }
         aux2 = aux2->Siguiente;
+    }
+}
+
+void buscar2(struct Nodo *comienzo, struct Nodo *realizadas, char *dato2){
+    struct Nodo *aux = comienzo;
+
+    while (aux && strstr(aux->tarea.Descripcion,dato2) == NULL)
+    {
+        aux = aux->Siguiente;
+    }
+    if (aux==NULL){
+        aux = realizadas;
+        while(aux && strstr(aux->tarea.Descripcion,dato2) == NULL){
+            aux = aux->Siguiente;
+        }
+        if(aux == NULL){
+            printf("No se encontro ninguna tarea.\n");
+        }else
+        {
+            printf("ID tarea encontrada: %d\n",aux->tarea.TareaID);
+            printf("Duracion: %d\n",aux->tarea.Duracion);
+            printf("Descripcion: %s\n",aux->tarea.Descripcion);
+            printf("Estado: REALIZADA\n");
+        }
+    }else {
+            printf("ID tarea encontrada: %d\n",aux->tarea.TareaID);
+            printf("Duracion: %d\n",aux->tarea.Duracion);
+            printf("Descripcion: %s\n",aux->tarea.Descripcion);
+            printf("Estado: PENDIENTE\n");
     }
 }
