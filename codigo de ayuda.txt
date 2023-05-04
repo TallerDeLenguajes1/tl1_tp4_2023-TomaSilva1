@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+FUNCION char *strstr(const char *str1, const char *str2); 
+//SE UTILIZA PARA BUSCAR LA PRIMERA APARICION DE UNA CADENA DENTRO DE OTRA CADENA str1 ES LA CADENA QUE SE VA A BUSCAR Y str2 ES LA CADENA QUE SE DESEA BUSCAR DENTRO DE str1.
+//devuelve un puntero de la primera aparición de str2 en str1, o NULL si str2 no se encuentra dentro de str1.
+
+
+ while(aux && strstr(aux->tarea.Descripcion,dato2) == NULL){
+            aux = aux->Siguiente;
+        }
+//una forma de utilizar esta funcion.
+
+while (aux && aux->persona.edad != edad)
+    {
+        aux = aux->siguiente;
+    }
+//de esta forma se recorre una funcion para buscar un parametro, en este caso la edad, se detiene cuando la encuentra.
+
+while (aux && aux->persona.edad != edad)
+    {
+        auxAnt = aux;
+        aux = aux->siguiente;
+    }
+//de esta forma se busca un parametro y en este caso es acompañado por un auxAnt(anterior) para eliminar o extraer un nodo.

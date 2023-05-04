@@ -181,7 +181,7 @@ void buscar2(struct Nodo *comienzo, struct Nodo *realizadas,struct Nodo *proceso
             printf("ID tarea encontrada: %d\n",aux->tarea.TareaID);
             printf("Duracion: %d\n",aux->tarea.Duracion);
             printf("Descripcion: %s\n",aux->tarea.Descripcion);
-            printf("Estado: REALIZADA\n");
+            printf("Estado: EN PROCESO\n");
         }
     }else {
             printf("ID tarea encontrada: %d\n",aux->tarea.TareaID);
